@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UrlForm from './UrlForm';
 import ShortenedList from './ShortenedList';
+import { Log } from "../../logging_middleware/middleware.js";
 import './App.css';
 
 function App() {
@@ -21,7 +22,6 @@ function App() {
     }
   };
 
-
   const isValidUrl = (string) => {
     try {
       const url = new URL(string);
@@ -35,10 +35,11 @@ function App() {
     return Math.random().toString(36).substring(2, 8);
   };
 
-  const shortenUrls = () => {
+  const shortenUrls = async () => {
     for (let entry of urls) {
       if (!entry.longUrl || !isValidUrl(entry.longUrl)) {
         alert("Invalid URL: " + entry.longUrl);
+        await Log("frontend", "error", "api", `Invalid URL entered: ${entry.longUrl}`);
         return;
       }
     }
@@ -56,17 +57,19 @@ function App() {
       };
     });
 
+    await Log("frontend", "info", "api", `${newList.length} URLs shortened successfully`);
     setShortened([...shortened, ...newList]);
     setUrls([{ longUrl: '', validity: 30, shortcode: '' }]);
   };
 
-  const registerClick = (index) => {
+  const registerClick = async (index) => {
     const updated = [...shortened];
     updated[index].clicks.push({
       timestamp: new Date().toISOString(),
       source: document.referrer || "direct",
-      location: "Simulated: Delhi, India", 
+      location: "Simulated: Delhi, India",
     });
+    await Log("frontend", "debug", "api", `Click registered on ${updated[index].shortcode}`);
     setShortened(updated);
   };
 
