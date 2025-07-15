@@ -1,5 +1,12 @@
 # React URL Shortener
 
-A frontend-only URL shortener built in React
+A simple frontend-only React app to:
+- Shorten URLs
+- Use custom shortcodes
+- Track expiry & clicks
+
+## 📸 Preview
+
+![App Screenshot](public/screenshot.png)
 
 
