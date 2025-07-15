@@ -7,6 +7,6 @@ A simple frontend-only React app to:
 
 ## 📸 Preview
 
-![App Screenshot](public/screenshot.png)
+![App Screenshot](frontend_test_submission/public/screenshot.png)
 
 
